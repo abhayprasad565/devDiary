@@ -1,0 +1,63 @@
+# Common ignores
+
+# Node.js
+node_modules/
+
+# Build files
+build/
+dist/
+
+# Dependency directories
+/bower_components/
+
+# Compiled files
+*.log
+*.min.js
+*.min.css
+*.tgz
+*.map
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Mac OS system files
+.DS_Store
+
+# Frontend-specific ignores
+
+# Frontend build output
+frontend/build/
+frontend/dist/
+
+# Frontend compiled files
+frontend/*.log
+frontend/*.min.js
+frontend/*.min.css
+frontend/*.map
+
+# Backend-specific ignores
+backend/testData/
+
+# Backend build output
+backend/build/
+backend/dist/
+
+# Backend compiled files
+backend/*.log
+backend/*.min.js
+backend/*.min.css
+backend/*.map
+
+# Database
+backend/*.sqlite
+backend/*.db
+
+# Logs
+backend/logs/
+
+# Package files
+backend/*.gz
