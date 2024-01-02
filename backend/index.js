@@ -21,8 +21,8 @@ const postRoute = require("./Routes/postRoute");
 
 
 // middilewares
-
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 
 // routes
