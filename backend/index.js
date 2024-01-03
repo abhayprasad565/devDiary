@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const { PORT, dbConnectionString } = require("./config");
-const path = require("path");
 
 // Connect to database
 const mongoose = require("mongoose");
@@ -17,7 +16,7 @@ connectToDatabase();
 
 // require routes
 const postRoute = require("./Routes/postRoute");
-
+const userRoute = require("./Routes/userRoute");
 
 
 // middilewares
@@ -27,7 +26,7 @@ app.use(express.json());
 
 // routes
 app.use("/posts", postRoute);
-
+app.use("/users", userRoute);
 
 
 

@@ -9,7 +9,16 @@ const postSchema = Joi.object({
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
 });
-console.log(postSchema.validate(
-    { "author": "Charlie Brown", "genre": "Food", "subGenre": "Recipes", "title": "Delicious Desserts Collection", "description": "Indulge your sweet tooth with these mouthwatering dessert recipes from around the globe.", "images": ["image-url-7", "image-url-8"], "createdAt": "2024-01-01T05:41:30.805Z", "updatedAt": "2024-01-01T05:41:30.805Z" }
-))
-module.exports = { postSchema };
+// user
+
+const userSchema = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    location: Joi.string().default('Anonymous'),
+    createdAt: Joi.date(),
+    updatedAt: Joi.date(),
+    username: Joi.string().required(),
+    posts: Joi.array().items(Joi.string()), // Treat posts as an array of strings (ObjectIds)
+});
+
+module.exports = { userSchema, postSchema };
