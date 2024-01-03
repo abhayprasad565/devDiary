@@ -4,6 +4,7 @@ function wrapAsync(fn) {
     }
 }
 class ExpressError extends Error {
+
     constructor(status, message) {
         super();
         this.statusCode = status;

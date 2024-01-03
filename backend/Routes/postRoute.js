@@ -26,30 +26,29 @@ router.get("/", wrapAsync(async (req, res) => {
 router.get("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
     const post = await Posts.findOne({ _id: id });
-    res.status(400).send(JSON.stringify(post));
+    res.status(200).send(JSON.stringify(post));
 }));
 
 // new post route
 router.post("/", validatePost, wrapAsync(async (req, res) => {
     const postData = new Posts(req.body);
     await postData.save();
-    res.redirect(`posts/${postData._id}`);
-}))
+    res.status(200).redirect(`posts/${postData._id}`);
+}));
 // update post route
 router.put("/:id", validatePost, wrapAsync(async (req, res) => {
     const { id } = req.params;
     let post = await Posts.findOne({ _id: id });
     post.overwrite({ ...req.body });
     await post.save();
-    res.redirect(`/posts/${id}`);
-}))
+    res.status(200).edirect(`/posts/${id}`);
+}));
 // delete post route
 router.delete("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
     let post = await Posts.findByIdAndDelete(id);
-    console.log(post);
-    res.redirect("/posts");
-}))
+    res.status(200).redirect("/posts");
+}));
 
 
 
