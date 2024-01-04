@@ -1,3 +1,4 @@
+const { ExpressError } = require("../utils/errorHandlers");
 const Joi = require("joi");
 const postSchema = Joi.object({
     author: Joi.string().required(),
@@ -9,8 +10,16 @@ const postSchema = Joi.object({
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
 });
-// user
 
+// validate post 
+const validatePost = (req, res, next) => {
+    let { error } = postSchema.validate(req.body);
+    if (error) {
+        throw new ExpressError(400, error)
+    } else next();
+}
+
+// user
 const userSchema = Joi.object({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
@@ -21,4 +30,14 @@ const userSchema = Joi.object({
     posts: Joi.array().items(Joi.string()), // Treat posts as an array of strings (ObjectIds)
 });
 
-module.exports = { userSchema, postSchema };
+
+// validate user schema
+const validateUser = (req, res, next) => {
+    let { error } = userSchema.validate(req.body);
+    if (error) {
+        throw new ExpressError(400, error)
+    } else next();
+}
+
+
+module.exports = { validateUser, validatePost, userSchema, postSchema };
