@@ -5,10 +5,11 @@ const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 const { Users } = require("../Schema/User");
 const { validateUser } = require("../Schema/validateSchemas");
 
-router.get("/", wrapAsync(async (req, res) => {
-    let users = await Users.find({});
-    res.send(JSON.stringify(users));
-}));
+// test route all users
+// router.get("/", wrapAsync(async (req, res) => {
+//     let users = await Users.find({});
+//     res.send(JSON.stringify(users));
+// }));
 
 // get user details
 router.get("/:username", wrapAsync(async (req, res) => {
@@ -17,7 +18,6 @@ router.get("/:username", wrapAsync(async (req, res) => {
     console.log(user);
     res.send(JSON.stringify(user));
 }))
-
 
 
 // edit user route 

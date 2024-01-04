@@ -1,7 +1,7 @@
 const authRoute = require("express").Router();
 const passport = require('passport');
 const { Users } = require('../Schema/User');
-const { validateUser } = require("../Schema/validateSchemas");
+const { userSchema, validateUser } = require("../Schema/validateSchemas");
 const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 
 
@@ -42,14 +42,23 @@ authRoute.get('/logout', (req, res) => {
         if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
-        res.status(200).json({ success: true, redirectUrl: `/login` });
+        // if no error logout sucess
+        // destroy mongo session
+        req.session.destroy((destroyErr) => {
+            if (destroyErr) {
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+            // Clear the session cookie
+            res.clearCookie('connect.sid');
+            res.status(200).json({ success: true, redirectUrl: '/login' });
+        });
 
     });
 
 })
 // register user
 authRoute.post("/register", validateUser, wrapAsync(async (req, res) => {
-    const userDetails = validateUser(req.body).value;
+    const userDetails = userSchema.validate(req.body).value;
     const { password } = userDetails;
     console.log(password);
     const User = new Users(userDetails);
