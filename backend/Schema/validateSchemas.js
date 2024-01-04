@@ -27,6 +27,7 @@ const userSchema = Joi.object({
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
     username: Joi.string().required(),
+    password: Joi.string(),
     posts: Joi.array().items(Joi.string()), // Treat posts as an array of strings (ObjectIds)
 });
 

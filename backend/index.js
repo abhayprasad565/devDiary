@@ -1,5 +1,5 @@
 const express = require("express");
-const { PORT, dbConnectionString, sessionSecret } = require("./config");
+const { PORT, dbConnectionString, sessionSecret, allowedOrigins } = require("./config");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
@@ -28,7 +28,7 @@ app.use(helmet());
 
 // cors 
 app.use(cors({
-    origin: "http://localhost", // allowed origins
+    origin: allowedOrigins, // allowed origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
