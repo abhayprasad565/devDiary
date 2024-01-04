@@ -3,15 +3,9 @@ const router = require("express").Router();
 const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 // import models
 const Posts = require("../Schema/Posts");
-const { postSchema } = require("../Schema/validateSchemas");
+const { validatePost } = require("../Schema/validateSchemas");
 
-// validate post 
-const validatePost = (req, res, next) => {
-    let { error } = postSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError(400, error)
-    } else next();
-}
+
 
 
 // routes 

@@ -2,16 +2,8 @@ const router = require("express").Router();
 // error handlers
 const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 // import models
-const Users = require("../Schema/User");
-const { userSchema } = require("../Schema/validateSchemas");
-
-// validate User 
-const validateUser = (req, res, next) => {
-    let { error } = userSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError(400, error)
-    } else next();
-}
+const { Users } = require("../Schema/User");
+const { validateUser } = require("../Schema/validateSchemas");
 
 router.get("/", wrapAsync(async (req, res) => {
     let users = await Users.find({});
@@ -26,11 +18,7 @@ router.get("/:username", wrapAsync(async (req, res) => {
     res.send(JSON.stringify(user));
 }))
 
-// new user route
-router.post("/", validateUser, wrapAsync(async (req, res) => {
-    let userData = new Users(req.body);
-    await userData.save();
-}));
+
 
 // edit user route 
 router.put("/:username", validateUser, wrapAsync(async (req, res) => {
@@ -49,8 +37,6 @@ router.delete("/:username", wrapAsync(async (req, res) => {
     let user = await Users.findOneAndDelete({ username: username });
     res.redirect("/users");
 }))
-
-
 
 
 module.exports = router;

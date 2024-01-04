@@ -1,6 +1,7 @@
 
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const passportLocalMongoose = require('passport-local-mongoose');
 const Posts = require("./Posts");
 const userSchema = new Schema({
     firstName: {
@@ -35,9 +36,10 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectId, ref: 'Post',
         },
     ]
-})
+});
+userSchema.plugin(passportLocalMongoose);
 
-// delete all posts when delete user is called
+
 // mongoose middileware to delete data when this q is called
 userSchema.post("findOneAndDelete", async (user) => {
     // delete all posts in the  array
@@ -45,4 +47,4 @@ userSchema.post("findOneAndDelete", async (user) => {
 })
 
 const Users = mongoose.model("User", userSchema);
-module.exports = Users;
+module.exports = { Users };
