@@ -12,9 +12,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    location: {
+    email: {
         type: String,
-        default: "Anonymous",
+        required: true,
+    },
+    dateOfBirth: {
+        type: Date,
+        required: true,
     },
     createdAt: {
         type: Date,

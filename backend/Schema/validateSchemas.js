@@ -15,7 +15,7 @@ const postSchema = Joi.object({
 const validatePost = (req, res, next) => {
     let { error } = postSchema.validate(req.body);
     if (error) {
-        throw new ExpressError(400, error)
+        throw new ExpressError(400, `Validation error : ${error.message}`)
     } else next();
 }
 
@@ -23,7 +23,8 @@ const validatePost = (req, res, next) => {
 const userSchema = Joi.object({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    location: Joi.string().default('Anonymous'),
+    email: Joi.string().required(),
+    dateOfBirth: Joi.date().required(),
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
     username: Joi.string().required(),
@@ -34,9 +35,10 @@ const userSchema = Joi.object({
 
 // validate user schema
 const validateUser = (req, res, next) => {
+    console.log(req.body);
     let { error } = userSchema.validate(req.body);
     if (error) {
-        throw new ExpressError(400, error)
+        throw new ExpressError(400, `Validation Error: ${error.message}`)
     } else next();
 }
 
