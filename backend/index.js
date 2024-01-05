@@ -32,7 +32,14 @@ app.use(cors({
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
-}))
+}));
+// Enable CORS for all routes
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with the actual origin of your frontend
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
 // configure express session
 // secret - cookie secret password
@@ -86,12 +93,13 @@ app.use("/users", isLoggedIn, userRoute);
 
 
 app.use((req, res) => {
-    res.status(404).json({ error: "404 Page not found", redirect: "/" })
+    res.status(404).send(JSON.stringify({ error: "404 Page not found", redirect: "/" }))
 })
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ error: "Something went wrong", redirect: "/" });
+    console.log("this is the error :" + err.message);
+    res.status(err.statusCode).send(JSON.stringify({ error: err.message, redirect: "/" }));
 });
 
 app.listen(PORT, () => {

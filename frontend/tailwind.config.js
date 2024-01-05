@@ -5,7 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        custom: {
+          background: "var(--background)",
+          textColor: "var(--textColor)",
+          linkActive: "var(--linkActive)",
+          linkHover: "var(--linkHover)",
+          btnBg: "var(--btnBg)",
+          footerBg: "var(--footerBg)",
+        },
+      },
+    },
   },
   plugins: [],
 }

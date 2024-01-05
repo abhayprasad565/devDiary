@@ -11,7 +11,7 @@ const Navbar = () => {
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex-1 md:flex md:items-center md:gap-12">
                             <Link className="block text-teal-600 h-full" to="/">
-                                <img src={logo} alt="logo" className='md:justify-start md:h-[5rem]' />
+                                <img src={logo} alt="logo" className='md:justify-start h-[3rem] md:h-[5rem]' />
                             </Link>
                         </div>
 
