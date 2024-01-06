@@ -69,6 +69,9 @@ const Signup = () => {
             });
     }
 
+    const devDiaryAbout = `devDiary Community is a community of  amazing developers
+    Your Go-To Hub for Code, Connection, and Career Advancement`
+
     return (
         <>
             <section className='bg-custom-background text-custom-textColor'>
@@ -88,8 +91,7 @@ const Signup = () => {
                                 Welcome to devDiary
                             </h2>
                             <p className="mt-4 leading-relaxed">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-                                quibusdam aperiam voluptatum.
+                                {devDiaryAbout}
                             </p>
                         </div>
                     </section>
@@ -112,8 +114,7 @@ const Signup = () => {
                                 </h1>
 
                                 <p className="mt-4 leading-relaxed">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-                                    quibusdam aperiam voluptatum.
+                                    {devDiaryAbout}
                                 </p>
                             </div>
 

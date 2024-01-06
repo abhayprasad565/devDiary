@@ -5,11 +5,7 @@ const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 const { Users } = require("../Schema/User");
 const { validateUser } = require("../Schema/validateSchemas");
 
-// test route all users
-// router.get("/", wrapAsync(async (req, res) => {
-//     let users = await Users.find({});
-//     res.send(JSON.stringify(users));
-// }));
+
 
 // get user details
 router.get("/:username", wrapAsync(async (req, res) => {
@@ -21,7 +17,7 @@ router.get("/:username", wrapAsync(async (req, res) => {
 
 
 // edit user route 
-router.put("/:username", validateUser, wrapAsync(async (req, res) => {
+router.put("/:username", wrapAsync(async (req, res) => {
     const { username } = req.params;
     let user = await Users.findOne({ username: username });
     if (req.body.posts.length > 0) throw new ExpressError(400, "Bad request Send proper data");
