@@ -1,37 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from "../../../assets/logo.png"
+import { useNavigate } from 'react-router-dom';
+import getUserInfo from '../../../Contexts/UserInfo';
 
 const Signup = () => {
-    function InputComponent({ type, name, placeholder }) {
-        return (<div className=" w-full my-2">
-            <label
-                htmlFor={name}
-                className="relative block overflow-hidden rounded-md border border-gray-200 px-3 pt-3 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
-            >
-                <input
-                    type={type}
-                    name={name}
-                    placeholder={placeholder}
-                    className="peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-                />
-                <span
-                    className="absolute start-3 top-3 -translate-y-1/2 text-xs  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:text-xs"
-                >
-                    {placeholder}
-                </span>
-            </label>
-        </div>)
-    }
-    const [formData, setFormData] = useState({
-        firstName: "null",
-        lastName: "null",
-        dateOfBirth: "null",
-        email: "null",
-        username: "null",
-        password: "null",
-    });
-
+    const navigate = useNavigate();
+    const { userInfo, setUser } = getUserInfo();
     const submitFormData = async (e) => {
         e.preventDefault();
         const formData = new URLSearchParams();
@@ -40,10 +14,9 @@ const Signup = () => {
                 formData.append(ele.name, ele.value);
         }
         console.log(formData);
-        setFormData(formData);
-        registerUser(formData);
+        loginUser(formData);
     };
-    const registerUser = async (formData) => {
+    const loginUser = async (formData) => {
         let params = {
             method: "POST",
             headers: {
@@ -51,7 +24,6 @@ const Signup = () => {
             },
             body: formData
         }
-
         fetch('http://localhost:8080/login', params)
             .then(response => {
                 if (!response.ok) {
@@ -62,98 +34,110 @@ const Signup = () => {
                 return response.json();
             })
             .then(data => {
+                setUser(true, data.user);
                 console.log(data);
+                navigate('/', { replace: true });
+
             })
             .catch(error => {
                 console.log(error.message);
             });
     }
 
+    const devDiaryAbout = `devDiary Community is a community of  amazing developers
+    Your Go-To Hub for Code, Connection, and Career Advancement`
     return (
         <>
-            <section className='bg-custom-background text-custom-textColor'>
-                <div className="lg:grid lg:min-h-[90vh] lg:grid-cols-12">
-                    <section className="relative flex h-32 items-end lg:col-span-5 lg:h-full xl:col-span-6">
-                        <img
-                            alt="Night"
-                            src="https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            className="absolute inset-0 h-full w-full object-cover opacity-80"
-                        />
+            <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 text-custom-textColor bg-custom-background">
+                <div className="mx-auto max-w-lg">
+                    <h1 className="text-center text-2xl font-bold  sm:text-3xl">Welcome Back</h1>
+                    <p className=" mt-4 max-w-full text-center ">
+                        {devDiaryAbout}
+                    </p>
 
-                        <div className="hidden lg:relative lg:block lg:p-12">
-                            <Link className="block  flex items-center justify-center" to="/">
-                                <img src={logo} alt="logo" className='rounded-lg justify-center  md:h-[3rem]' />
-                            </Link>
-                            <h2 className="mt-6 text-2xl font-bold  sm:text-3xl md:text-4xl">
-                                Welcome to devDiary
-                            </h2>
-                            <p className="mt-4 leading-relaxed">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-                                quibusdam aperiam voluptatum.
-                            </p>
-                        </div>
-                    </section>
+                    <form action="" onSubmit={submitFormData} className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
+                        <p className="text-center text-lg font-medium">Sign in to your account</p>
 
-                    <main
-                        className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
-                    >
-                        <div className="max-w-xl lg:max-w-3xl">
-                            <div className="relative -mt-16 block lg:hidden">
-                                <Link
-                                    className="inline-flex h-16 w-16 items-center justify-center rounded-full  sm:h-20 sm:w-20"
-                                    to="/"
-                                >
-                                    <img src={logo} alt="logo" className='md:justify-start h-[3rem] md:h-[5rem]' />
+                        <div>
+                            <label htmlFor="email" className="sr-only">Email</label>
 
-                                </Link>
+                            <div className="relative">
+                                <input
+                                    type="test"
+                                    name='username'
+                                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                    placeholder="Enter email"
+                                />
 
-                                <h1 className="mt-2 text-2xl font-bold  sm:text-3xl md:text-4xl">
-                                    Welcome to devDiary
-                                </h1>
-
-                                <p className="mt-4 leading-relaxed">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-                                    quibusdam aperiam voluptatum.
-                                </p>
-                            </div>
-
-                            <form action="/" onSubmit={submitFormData} className="mt-8 flex flex-col md:w-[26vw] items-start justify-center gap-1">
-                                <InputComponent type='text' name='username' placeholder='Username'></InputComponent>
-                                <InputComponent type='password' name='password' placeholder='Password'></InputComponent>
-                                <div className="">
-                                    <label htmlFor="MarketingAccept" className="flex gap-4">
-                                        <input
-                                            type="checkbox"
-                                            id="MarketingAccept"
-                                            name=""
-                                            className="h-5 w-5 rounded-md border-gray-200  shadow-sm"
-                                        />
-
-                                        <span className="text-sm ">
-                                            I agree to the Terms and Conditions.
-                                        </span>
-                                    </label>
-                                </div>
-                                <div className="col sm:flex sm:items-center sm:gap-4 sm:flex-col-reverse my-2 w-full">
-                                    <button type='submit'
-                                        className="inline-block  w-full mx-3shrink-0 rounded-md border bg-custom-btnBg border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium  transition hover:bg-transparent hover focus:outline-none focus:ring active:text-blue-500"
+                                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
                                     >
-                                        LogIn
-                                    </button>
-                                    <p className="mt-4 text-sm w-full text-left  sm:mt-0">
-                                        Dont have a Account?
-                                        <Link to="/signup" className="text-custom-linkActive"> Signup</Link>.
-                                    </p>
-                                    <p className="mt-4 text-sm w-full text-left sm:mt-0">
-                                        Forgot Username or Password?
-                                        <Link to="/forgotPassword" className="text-custom-linkActive"> Recover</Link>.
-                                    </p>
-                                </div>
-                            </form>
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                                        />
+                                    </svg>
+                                </span>
+                            </div>
                         </div>
-                    </main>
+
+                        <div>
+                            <label htmlFor="password" className="sr-only">Password</label>
+
+                            <div className="relative">
+                                <input
+                                    type="password"
+                                    name='password'
+                                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                    placeholder="Enter password"
+                                />
+
+                                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4 "
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        />
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+                        >
+                            Log in
+                        </button>
+
+                        <p className="text-center text-sm ">
+                            No account?
+                            <Link className="underline" to="/signup"> Sign up</Link>
+                        </p>
+                    </form>
                 </div>
-            </section>
+            </div>
         </>
     );
 }

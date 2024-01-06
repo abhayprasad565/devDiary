@@ -1,15 +1,16 @@
 const express = require("express");
 const { PORT, dbConnectionString, sessionSecret, allowedOrigins } = require("./config");
-const session = require("express-session");
+const session = require("express-session"); // Add this line
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
-const MongoStore = require('connect-mongo');
+const LocalStrategy = require('passport-local');
 const { Users } = require("./Schema/User");
 const flash = require('connect-flash');
 const helmet = require("helmet");
 const app = express();
 const { wrapAsync, ExpressError } = require("./utils/errorHandlers");
 const cors = require('cors');
+// initialize passport startegy
+require("./utils/passportConfig")();
 
 // Connect to database
 const mongoose = require("mongoose");
@@ -25,7 +26,6 @@ connectToDatabase();
 
 // https security middileware
 app.use(helmet());
-
 // cors 
 app.use(cors({
     origin: allowedOrigins, // allowed origins
@@ -41,32 +41,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// configure express session
-// secret - cookie secret password
-// resave- resave session evertime is false
-// saveUninitialized - save when session not present
+
+// Add express-session middleware
 app.use(session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({
-        mongoUrl: dbConnectionString, // MongoDB connection URL
-        collectionName: 'sessions', // Collection name for storing sessions
-        ttl: 14 * 24 * 60 * 60, // Session TTL (optional)
-    }),
 }));
 
-// auth middilewares
-// configure passport
-// Initialize Passport and restore authentication state from the session
-app.use(passport.initialize());
-app.use(passport.session());
-// initialize local strategy
+// initialize passport
 passport.use(new LocalStrategy(Users.authenticate()));
-//Serialize user
 passport.serializeUser(Users.serializeUser());
-passport.deserializeUser(Users.deserializeUser());
-
+app.use(passport.initialize());
 
 
 // middilewares
@@ -76,7 +62,7 @@ app.use(express.json());
 
 
 // require routes
-const { authRoute, isLoggedIn } = require("./Routes/authRoute");
+const { authRoute } = require("./Routes/authRoute");
 const postRoute = require("./Routes/postRoute");
 const userRoute = require("./Routes/userRoute");
 
@@ -87,21 +73,23 @@ const userRoute = require("./Routes/userRoute");
 
 // routes
 app.use("/", authRoute);
-app.use("/posts", isLoggedIn, postRoute);
-app.use("/users", isLoggedIn, userRoute);
+app.use("/", passport.authenticate('jwt', { session: false }), postRoute);
+app.use("/users", passport.authenticate('jwt', { session: false }), userRoute);
 
 
-
+// 404 route
 app.use((req, res) => {
     res.status(404).send(JSON.stringify({ error: "404 Page not found", redirect: "/" }))
 })
 
+// last error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     console.log("this is the error :" + err.message);
     res.status(err.statusCode).send(JSON.stringify({ error: err.message, redirect: "/" }));
 });
 
+// listen to port
 app.listen(PORT, () => {
     console.log("Listening to " + PORT);
 });
