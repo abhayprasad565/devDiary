@@ -77,8 +77,9 @@ const userRoute = require("./Routes/userRoute");
 
 // routes
 app.use("/", authRoute);
-app.use("/", passport.authenticate('jwt', { session: false }), postRoute);
 app.use("/users", passport.authenticate('jwt', { session: false }), userRoute);
+app.use("/", passport.authenticate('jwt', { session: false }), postRoute);
+
 
 
 // 404 route

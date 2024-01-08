@@ -15,7 +15,7 @@ const params = {
 module.exports = function () {
     // jwt strategy 
     const strategy = new Strategy(params, async function (payload, done) {
-        console.log(payload);
+        //console.log(payload);
         try {
             const user = await Users.findById(payload.id)
             if (!user) {
@@ -34,7 +34,7 @@ module.exports = function () {
     //local strategy
     passport.use(new LocalStrategy(
         async (username, password, done) => {
-            console.log(username, password);
+            // console.log(username, password);
             try {
                 const user = await Users.findOne({ username });
                 if (!user || !user.validPassword(password)) {

@@ -7,13 +7,18 @@ import NotFound from './Components/Errors/NotFound.jsx'
 import Signup from './Components/Authentication/Signup/Signup.jsx'
 import Login from './Components/Authentication/Login/Login.jsx'
 import Profile from './Components/Profile/Profile.jsx'
+import EditProfile from './Components/Profile/EditProfile.jsx'
+import Posts from './Components/Posts/Posts.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
+      <Route path='/' element={<Posts />}></Route>
       <Route path='signup' element={<Signup />}></Route>
       <Route path='login' element={<Login />}></Route>
+      <Route path='users/edit' element={<EditProfile />}></Route>
       <Route path='users/:username' element={<Profile />}></Route>
+
       <Route path='*' element={<NotFound />}></Route>
     </Route>
 

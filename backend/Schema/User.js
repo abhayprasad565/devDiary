@@ -42,6 +42,11 @@ const userSchema = new Schema({
         {
             type: Schema.Types.ObjectId, ref: 'Post',
         },
+    ],
+    savedPosts: [
+        {
+            type: Schema.Types.ObjectId, ref: 'Post',
+        },
     ]
 });
 userSchema.plugin(passportLocalMongoose);

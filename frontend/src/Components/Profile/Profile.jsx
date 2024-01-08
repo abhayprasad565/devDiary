@@ -46,6 +46,14 @@ const Profile = () => {
     return (
         <div className='h-fit md:h-[80vh] box-border p-2 flex flex-col md:flex-row items-start  w-screen bg-custom-background text-custom-textColor'>
             <div className="relative sm:w-1/3 sm:min-h-[80vh] mt-16 min-w-0 break-words  mb-6 shadow-lg rounded-xl">
+                {isProfileOwner &&
+                    <span class="inline-flex w-fit ms-[80%] justify-end items-end -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
+                        <Link to="/users/edit"
+                            class="inline-block border px-4 py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
+                        >
+                            Edit
+                        </Link>
+                    </span>}
                 <div className="px-6">
                     <div className="flex flex-wrap justify-center">
                         <div className="w-full flex justify-center">
@@ -82,9 +90,9 @@ const Profile = () => {
                 </div>
             </div>
             {errorPopup}
-            <div className='w-2/3 p-4 flex flex-col max-h-[90vh] items-start justify-start'>
+            <div className='w-full md:w-2/3 p-4 flex flex-col max-h-[90vh] items-start justify-start'>
                 <div className='mb-6 text-custom-linkActive text-3xl underline underline-offset-4 font-bold'>{isProfileOwner ? "Your Posts" : "Latest Posts"}</div>
-                <div className='w-full h-full overflow-y-auto custom-scrollbar'>
+                <div className='w-full h-fit sm:h-full sm:overflow-y-auto custom-scrollbar'>
                     {profileDetails && profileDetails.posts.map((obj, index) => {
                         // console.log(obj);
                         // console.log(profileDetails);
@@ -122,16 +130,16 @@ function PostsCard({ post, owner }) {
                 />
             </div>
 
-            <div className="flex flex-1 flex-col items-end justify-between">
+            <div className="flex flex-1 flex-col items-end justify-between text-xs sm:text-md">
                 {owner &&
-                    <span className="z-10 mb-[-30px] h-30px w-fit items-end overflow-hidden rounded-md border bg-custom-background shadow-sm">
+                    <span className="z-10 sm:mb-[-30px] h-[30px] md:h-fit w-fit items-end overflow-hidden rounded-md border bg-custom-background shadow-sm">
                         <button
-                            className="inline-block border px-4 py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
+                            className="inline-block border px-4 py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
                         >
                             Edit
                         </button>
                         <button
-                            className="inline-block px-4 border py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
+                            className="inline-block px-4 border py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
                         >
                             Delete
                         </button>
