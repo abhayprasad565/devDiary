@@ -3,16 +3,19 @@ const router = require("express").Router();
 const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 // import models
 const { Users } = require("../Schema/User");
-const { validateUser } = require("../Schema/validateSchemas");
 
 
 
 // get user details
 router.get("/:username", wrapAsync(async (req, res) => {
-    let { username } = req.params
-    let user = await Users.findOne({ username: username });
-    console.log(user);
-    res.send(JSON.stringify(user));
+    const { username } = req.params
+    const user = await Users.findOne({ username: username }).populate({
+        path: 'posts',
+        options: { sort: { createdAt: 1 } }, // Sorting posts by createdAt in ascending order
+        select: '-__v',// remove _v feild
+    }).select('-_id -__v ');
+    if (!user) throw new ExpressError(400, "User Not Found");
+    res.send(JSON.stringify({ sucess: true, user: user }));
 }))
 
 

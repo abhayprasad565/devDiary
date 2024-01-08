@@ -35,3 +35,37 @@ html.dark {
     --btnBg: var(--dark-btnColor);
     --footerBg: var(--dark-footerBg);
 }
+
+.errorAnimate {
+    animation: fadeInOut 2s ease-out;
+}
+
+@keyframes fadeInOut {
+
+    0%,
+    100% {
+        opacity: 0;
+        bottom: 0;
+    }
+
+    25%,
+    75% {
+        opacity: 1;
+        bottom: 50px;
+    }
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--background);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--background);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--btnBg);
+
+}

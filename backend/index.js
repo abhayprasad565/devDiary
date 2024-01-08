@@ -33,12 +33,16 @@ app.use(cors({
     credentials: true,
     optionsSuccessStatus: 204,
 }));
-// Enable CORS for all routes
+// Enable CORS for local host 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with the actual origin of your frontend
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
 });
 
 
@@ -86,7 +90,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     console.log("this is the error :" + err.message);
-    res.status(err.statusCode).send(JSON.stringify({ error: err.message, redirect: "/" }));
+    res.status(err.statusCode).send(JSON.stringify({ error: true, message: err.message }));
 });
 
 // listen to port

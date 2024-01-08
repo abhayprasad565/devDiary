@@ -4,30 +4,51 @@ import Navbar from './Components/Navbar/Navbar';
 import { Outlet } from 'react-router-dom'
 import Signup from './Components/Authentication/Signup/Signup';
 import { UserInfoProvider } from './Contexts/UserInfo';
+import useError from './Hooks/ErrorMessages';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  // navigate hook
+  const navigate = useNavigate();
+  // user state hook
   const [userInfo, setUserInfo] = useState({
     isLoggedIn: false,
-    userInfo: {}
+    info: {}
   });
-  function setUser(userStatus, user) {
+  // context api set user
+  function setUser(userStatus = false, user = null) {
     setUserInfo({
       isLoggedIn: userStatus,
-      userInfo: { ...user }
+      info: { ...user }
     })
-    console.log(user);
   }
+  // error popup 
+  const [errorPopup, setError] = useError();
+  // check user already loggedin
   useEffect(() => {
-    console.log("check-login")
-    fetch('http://localhost:8080/check_login')
+    const params = {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        'Content-Type': 'application/json',
+      },
+    }
+    fetch('http://localhost:8080/check_login', params)
       .then(response => {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        if (data.error) {
+          throw data;
+        }
+        setUser(data.sucess, data.user);
       })
       .catch(error => {
-        console.log(error.message);
+        console.log(error);
+        setError(true, error.message);
+        setTimeout(() => {
+          navigate('/login', { replace: true });
+        }, 2000);
       });
   }, [])
 
@@ -36,6 +57,7 @@ function App() {
       <UserInfoProvider value={{ userInfo, setUser }}>
         <Navbar></Navbar>
         <Outlet></Outlet>
+        {errorPopup}
       </UserInfoProvider>
     </>
   )
