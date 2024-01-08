@@ -25,6 +25,7 @@ const userSchema = Joi.object({
     lastName: Joi.string().required(),
     email: Joi.string().required(),
     dateOfBirth: Joi.date().required(),
+    about: Joi.string(),
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
     username: Joi.string().required(),

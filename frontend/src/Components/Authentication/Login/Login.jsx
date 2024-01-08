@@ -1,46 +1,59 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../../Contexts/UserInfo';
+import useError from '../../../Hooks/ErrorMessages';
 
 const Signup = () => {
+    // set password vissible 
+    const [passVissible, setPassVissible] = useState(false);
+    const handlePasswordVissibility = () => {
+        setPassVissible(prev => !prev);
+    }
+
+    // pre required hooks 
     const navigate = useNavigate();
     const { userInfo, setUser } = getUserInfo();
+    const [errorPopup, setError] = useError();
+
+    // handle login api call
     const submitFormData = async (e) => {
         e.preventDefault();
-        const formData = new URLSearchParams();
+        const formData = {};
         for (let ele of e.target.elements) {
             if (ele.name.trim())
-                formData.append(ele.name, ele.value);
+                formData[ele.name] = ele.value;
         }
-        console.log(formData);
         loginUser(formData);
     };
     const loginUser = async (formData) => {
+        console.log(formData);
         let params = {
             method: "POST",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
             },
-            body: formData
+            body: JSON.stringify(formData)
         }
         fetch('http://localhost:8080/login', params)
-            .then(response => {
-                if (!response.ok) {
-                    response.json().then(res => {
-                        throw new Error(`${res.error}`);
-                    });
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                setUser(true, data.user);
+                if (data.error) {
+                    setError(true, data.message);
+                }
+                else {
+                    setUser(true, data.user);
+                    localStorage.setItem('authToken', data.token);
+                    setError(false, "Login Sucessfull")
+                    setTimeout(() => {
+                        navigate('/', { replace: true });
+                    }, 2000);
+                }
                 console.log(data);
-                navigate('/', { replace: true });
-
             })
             .catch(error => {
-                console.log(error.message);
+                let msg = error.message;
+                setError(true, msg);
+                console.log(msg);
             });
     }
 
@@ -48,7 +61,8 @@ const Signup = () => {
     Your Go-To Hub for Code, Connection, and Career Advancement`
     return (
         <>
-            <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 text-custom-textColor bg-custom-background">
+            <div className="mx-auto w-screen px-4 py-16 sm:px-6 lg:px-8 text-custom-textColor bg-custom-background">
+
                 <div className="mx-auto max-w-lg">
                     <h1 className="text-center text-2xl font-bold  sm:text-3xl">Welcome Back</h1>
                     <p className=" mt-4 max-w-full text-center ">
@@ -93,13 +107,13 @@ const Signup = () => {
 
                             <div className="relative">
                                 <input
-                                    type="password"
+                                    type={passVissible ? "password" : "text"}
                                     name='password'
                                     className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                     placeholder="Enter password"
                                 />
 
-                                <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                                <span onClick={handlePasswordVissibility} className="cursor-pointer absolute inset-y-0 end-0 grid place-content-center px-4">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-4 w-4 "
@@ -126,7 +140,7 @@ const Signup = () => {
 
                         <button
                             type="submit"
-                            className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+                            className="block w-full rounded-lg  px-5 text-custom-background hover:text-custom-textColor border bg-custom-btnBg hover:bg-custom-background hover:border-custom-textColor border-custom-background py-3 text-sm font-medium  transition hover focus:outline-none focus:ring"
                         >
                             Log in
                         </button>
@@ -138,6 +152,7 @@ const Signup = () => {
                     </form>
                 </div>
             </div>
+            {errorPopup}
         </>
     );
 }

@@ -26,7 +26,7 @@ const postSchemaDefinition = new Schema({
     images: [
         {
             type: String,
-            default: "https://images.unsplash.com/photo-1614899099690-3bd319d25f99?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            default: "https://images.unsplash.com/photo-1614899099690-3bd319d25f99?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         }
     ],
     createdAt: {

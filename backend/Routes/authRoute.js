@@ -5,10 +5,29 @@ const { userSchema, validateUser } = require("../Schema/validateSchemas");
 const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 const { login, register } = require("../utils/accountController");
 
+const authenticateUser = (req, res, next) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+        console.log(err, user, info);
+        if (err) {
+            next(new ExpressError(502, "Internal Server Error"));
+        }
+        if (!user) {
+            next(new ExpressError(400, info.message));
+        }
+        // Authentication successful, call the next middleware
+        req.login(user, (loginErr) => {
+            if (loginErr) {
+                next(new ExpressError(500, "Internal server Error"));
+            }
+            // Call the next middleware
+            next();
+        });
+    })(req, res, next);
+}
 
 
 // userAuth
-authRoute.post("/login", passport.authenticate('local'), login);
+authRoute.post("/login", authenticateUser, login);
 // user logout
 authRoute.get('/logout', (req, res) => {
     req.logOut((err) => {

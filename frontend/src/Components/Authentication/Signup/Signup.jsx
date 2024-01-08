@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useError from '../../../Hooks/ErrorMessages';
+
 import logo from "../../../assets/logo.png"
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const [errorPopup, setError] = useError();
     function InputComponent({ type, name, placeholder }) {
         return (<div className="col-span-6 sm:col-span-3">
             <label
@@ -51,21 +55,23 @@ const Signup = () => {
             },
             body: formData
         }
-
         fetch('http://localhost:8080/register', params)
-            .then(response => {
-                if (!response.ok) {
-                    response.json().then(res => {
-                        throw new Error(`${res.error}`);
-                    });
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log(data);
+                if (data.error) {
+                    throw data;
+                }
+                else {
+                    setError(false, "Regestration Sucessfull")
+                    setTimeout(() => {
+                        navigate('/login', { replace: true });
+                    }, 2000);
+                }
             })
             .catch(error => {
-                console.log(error.message);
+                let msg = error.message;
+                setError(true, msg);
+                console.log(msg);
             });
     }
 
@@ -74,23 +80,23 @@ const Signup = () => {
 
     return (
         <>
-            <section className='bg-custom-background text-custom-textColor'>
+            <section className='bg-custom-background text-custom-textColor w-screen items-center'>
                 <div className="lg:grid lg:min-h-[90vh] lg:grid-cols-12">
                     <section className="relative flex h-32 items-end lg:col-span-5 lg:h-full xl:col-span-6">
                         <img
                             alt="Night"
                             src="https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            className="absolute inset-0 h-full w-full object-cover opacity-80"
+                            className="rounded-lg absolute inset-0 h-full w-full object-cover opacity-80"
                         />
 
-                        <div className="hidden lg:relative lg:block lg:p-12">
-                            <Link className="block  flex items-center justify-center" to="/">
+                        <div className="hidden rounded-lg bg-custom-background w-fit lg:relative lg:block lg:m-5 z">
+                            <Link className="flex items-center justify-center" to="/">
                                 <img src={logo} alt="logo" className='rounded-lg justify-center  md:h-[3rem]' />
                             </Link>
-                            <h2 className="mt-6 text-2xl font-bold  sm:text-3xl md:text-4xl">
+                            <h2 className="mt-2 text-2xl font-bold  sm:text-3xl md:text-4xl">
                                 Welcome to devDiary
                             </h2>
-                            <p className="mt-4 leading-relaxed">
+                            <p className="mt-2 leading-relaxed">
                                 {devDiaryAbout}
                             </p>
                         </div>
@@ -141,13 +147,13 @@ const Signup = () => {
                                 </div>
                                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                                     <button type='submit'
-                                        className="inline-block shrink-0 rounded-md border bg-custom-btnBg border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium  transition hover:bg-transparent hover focus:outline-none focus:ring active:text-blue-500"
+                                        className="inline-block shrink-0 rounded-md text-custom-background hover:text-custom-textColor border bg-custom-btnBg hover:bg-custom-background hover:border-custom-textColor border-custom-background px-12 py-3 text-sm font-medium  transition hover focus:outline-none focus:ring"
                                     >
                                         Create an account
                                     </button>
                                     <p className="mt-4 text-sm  sm:mt-0">
                                         Already have an account?
-                                        <Link to="/login" className="">Log in</Link>.
+                                        <Link to="/login" className="text-custom-linkActive"> Log in</Link>.
                                     </p>
                                 </div>
                             </form>
@@ -155,6 +161,7 @@ const Signup = () => {
                     </main>
                 </div>
             </section>
+            {errorPopup}
         </>
     );
 }
