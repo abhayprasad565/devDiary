@@ -3,6 +3,7 @@ const router = require("express").Router();
 const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 // import models
 const { Users } = require("../Schema/User");
+const { authorizeUser } = require("./authRoute");
 
 
 
@@ -13,20 +14,28 @@ router.get("/:username", wrapAsync(async (req, res) => {
         path: 'posts',
         options: { sort: { createdAt: 1 } }, // Sorting posts by createdAt in ascending order
         select: '-__v',// remove _v feild
-    }).select('-_id -__v ');
+    }).select('-__v ');
     if (!user) throw new ExpressError(400, "User Not Found");
     res.send(JSON.stringify({ sucess: true, user: user }));
 }))
 
 
 // edit user route 
-router.put("/:username", wrapAsync(async (req, res) => {
+router.put("/:username", authorizeUser, wrapAsync(async (req, res) => {
     const { username } = req.params;
     let user = await Users.findOne({ username: username });
-    if (req.body.posts.length > 0) throw new ExpressError(400, "Bad request Send proper data");
-    user.overwrite({ ...req.body });
+    let { firstName, lastName, dateOfBirth, email, about } = req.body;
+    console.log(req.body);
+    if (!dateOfBirth) dateOfBirth = user.dateOfBirth;
+    // Only update the fields that are present in the request body
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
+    if (email) user.email = email;
+    if (about) user.about = about;
     await user.save();
-    res.send("user updated sucessfully")
+    // console.log(user);
+    res.json({ sucess: true, message: "User updated sucessfully", user: user })
 }));
 
 

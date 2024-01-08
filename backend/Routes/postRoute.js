@@ -13,8 +13,8 @@ const { validatePost } = require("../Schema/validateSchemas");
 
 // show all posts
 router.get("/", wrapAsync(async (req, res) => {
-    const allPosts = await Posts.find({});
-    res.send(allPosts);
+    const allPosts = await Posts.find({}).populate('author', 'firstName lastName username',).sort({ createdAt: 1 });
+    res.json({ sucess: true, posts: allPosts });
 }));
 // show specific post
 router.get("/:id", wrapAsync(async (req, res) => {

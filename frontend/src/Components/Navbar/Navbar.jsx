@@ -47,7 +47,7 @@ const Navbar = () => {
     return (
 
         <>
-            <header className="bg-white w-screen">
+            <header className="bg-white w-screen z-20">
                 <div className="mx-auto max-w-screen px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex-1 md:flex md:items-center md:gap-12">
@@ -110,9 +110,9 @@ const Navbar = () => {
                             }
                             {userInfo.isLoggedIn &&
                                 <div>
-                                    <div onClick={handleMenuVissibility} className="h-10 w-10 ring-4 user cursor-pointer relative ring-blue-700/30 rounded-full bg-cover bg-center bg-[url('https://as2.ftcdn.net/v2/jpg/03/04/99/89/1000_F_304998952_u4RbglQksZHYE6vVexLhovTwC1NLFyt0.jpg')]">
+                                    <div onClick={handleMenuVissibility} className="h-10 w-10 ring-4 user cursor-pointer relative top-2 ring-blue-700/30 rounded-full bg-cover bg-center bg-[url('https://as2.ftcdn.net/v2/jpg/03/04/99/89/1000_F_304998952_u4RbglQksZHYE6vVexLhovTwC1NLFyt0.jpg')]">
 
-                                        <div className={`${menuVissible ? "block" : "hidden"} drop-down  w-48 overflow-hidden bg-white rounded-md shadow absolute top-12 right-3`}>
+                                        <div className={`${menuVissible ? "block" : "hidden"} z-20 drop-down  w-48 overflow-hidden bg-white rounded-md shadow absolute top-12 right-3`}>
                                             <ul>
                                                 <Link to={`/users/${userInfo.info.username}`} className="px-3 py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
                                                     <span>
@@ -123,13 +123,13 @@ const Navbar = () => {
                                                     </span>
                                                     <span> My Profile </span>
                                                 </Link>
-                                                <Link className="px-3  py-3  text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
+                                                <Link to="/" className="px-3  py-3  text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                                         </svg>
                                                     </span>
-                                                    <span> Wishlist </span>
+                                                    <span> Saved Posts </span>
                                                 </Link>
                                                 <li onClick={handleLogout} className="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
                                                     <span>
