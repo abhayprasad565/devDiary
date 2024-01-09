@@ -12,10 +12,22 @@ const { validatePost } = require("../Schema/validateSchemas");
 
 
 // show all posts
-router.get("/", wrapAsync(async (req, res) => {
-    const allPosts = await Posts.find({}).populate('author', 'firstName lastName username',).sort({ createdAt: 1 });
-    res.json({ sucess: true, posts: allPosts });
-}));
+router.get("/", async (req, res, next) => {
+    try {
+        const allPosts = await Posts.find({}).populate('author', 'firstName lastName username',).sort({ createdAt: 1 });
+        const tenDaysAgoTimestamp = Date.now() - (15 * 24 * 60 * 60 * 1000);
+        const trending = await Posts.aggregate([
+            { $match: { createdAt: { $gte: new Date(tenDaysAgoTimestamp) } } },
+            { $group: { _id: "$genre" } },
+            { $limit: 5 }
+        ]).exec();
+        res.json({ sucess: true, posts: allPosts, genres: trending });
+    } catch (error) {
+        console.log(error.message);
+        next(new ExpressError(500, "Internal server error"));
+    }
+
+});
 // show specific post
 router.get("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;

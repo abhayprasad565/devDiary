@@ -51,7 +51,7 @@ const Navbar = () => {
                 <div className="mx-auto max-w-screen px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex-1 md:flex md:items-center md:gap-12">
-                            <Link className="block h-full" to="/">
+                            <Link className="block h-full" to="/posts">
                                 <img src={logo} alt="logo" className='md:justify-start h-[3rem] md:h-[5rem]' />
                             </Link>
                         </div>
@@ -131,6 +131,26 @@ const Navbar = () => {
                                                     </span>
                                                     <span> Saved Posts </span>
                                                 </Link>
+                                                <NavLink to="/categories" className="px-3 sm:hidden py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="12" cy="12" r="10" />
+                                                        <line x1="12" y1="8" x2="12" y2="16" />
+                                                        <line x1="8" y1="12" x2="16" y2="12" />
+                                                    </svg>
+                                                    <span> Categories</span>
+                                                </NavLink>
+                                                <NavLink to="/trending" className="px-3 sm:hidden py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <polyline points="1 12 5 8 9 12 13 8 17 12 21 8" />
+                                                        <line x1="5" y1="4" x2="5" y2="12" />
+                                                        <line x1="19" y1="4" x2="19" y2="12" />
+                                                    </svg>
+                                                    <span> Trending</span>
+                                                </NavLink>
+                                                <NavLink to="/posts/new" className="px-3 sm:hidden py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
+                                                    <svg className="h-6 w-6" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-label="Write"><path d="M14 4a.5.5 0 0 0 0-1v1zm7 6a.5.5 0 0 0-1 0h1zm-7-7H4v1h10V3zM3 4v16h1V4H3zm1 17h16v-1H4v1zm17-1V10h-1v10h1zm-1 1a1 1 0 0 0 1-1h-1v1zM3 20a1 1 0 0 0 1 1v-1H3zM4 3a1 1 0 0 0-1 1h1V3z" fill="currentColor"></path><path d="M17.5 4.5l-8.46 8.46a.25.25 0 0 0-.06.1l-.82 2.47c-.07.2.12.38.31.31l2.47-.82a.25.25 0 0 0 .1-.06L19.5 6.5m-2-2l2.32-2.32c.1-.1.26-.1.36 0l1.64 1.64c.1.1.1.26 0 .36L19.5 6.5m-2-2l2 2" stroke="currentColor"></path></svg>
+                                                    <span>Write</span>
+                                                </NavLink>
                                                 <li onClick={handleLogout} className="px-3  py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -139,7 +159,6 @@ const Navbar = () => {
                                                     </span>
                                                     <span> Logout </span>
                                                 </li>
-
                                             </ul>
                                         </div>
                                     </div>
