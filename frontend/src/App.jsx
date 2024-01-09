@@ -6,6 +6,7 @@ import Signup from './Components/Authentication/Signup/Signup';
 import { UserInfoProvider } from './Contexts/UserInfo';
 import useError from './Hooks/ErrorMessages';
 import { useNavigate } from 'react-router-dom';
+import Footer from './Components/Footer/Footer';
 
 function App() {
   // navigate hook
@@ -58,6 +59,7 @@ function App() {
         <Navbar></Navbar>
         <Outlet></Outlet>
         {errorPopup}
+        <Footer />
       </UserInfoProvider>
     </>
   )

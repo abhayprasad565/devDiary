@@ -14,7 +14,7 @@
     --dark-linkHover: #bfe9ff;
     --light-btnColor: #dd6b20;
     --dark-btnColor: #188cff;
-    --light-footerBg: white;
+    --light-footerBg: rgb(242, 242, 242);
     --dark-footerBg: rgba(52, 57, 83, 1);
 }
 

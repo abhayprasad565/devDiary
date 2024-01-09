@@ -23,12 +23,14 @@ const post = {
     "__v": 0
 }
 const Posts = () => {
+
     // navigate hook
     const navigate = useNavigate();
     // error popup 
     const [errorPopup, setError] = useError();
     // data
     const [postdata, setPostData] = useState();
+    const [trendingData, setTrendingData] = useState();
     useEffect(() => {
         const params = {
             method: 'GET',
@@ -46,6 +48,8 @@ const Posts = () => {
                     throw data;
                 }
                 setPostData(data.posts);
+                setTrendingData(data.genres);
+                console.log(data.genres);
             })
             .catch(error => {
                 console.log(error);
@@ -58,13 +62,36 @@ const Posts = () => {
 
     return (
         <>
-            <div className='h-[80vh] w-screen max-w-screen flex flex-row flex-wrap my-5 box-border'>
-                {postdata && postdata.map((post) => {
-                    return <PostsCard post={post} key={post._id} />
-                })}
+            <div className='w-screen box-border my-3 flex  items-center flex-col sm:flex-row justify-center'>
+                <div className='sm:bg-custom-footerBg w-full flex-row sm:flex-col flex sticky sm:w-[17%] sm:h-[90vh] box-border m-2'>
+                    <div className='sm:w-full text-sm sm:text-2xl font-bold text-custom-linkActive my-3'>Trending Topics</div>
+                    {trendingData && trendingData.map((genre, index) => <TrendingCard genre={genre} key={index} />)}
+                </div>
+                <div className='h-[80vh] box-border w-full sm:w-[66%] custom-scrollbar max-h-[90vh] overflow-y-auto flex flex-row flex-wrap  gap-1 justify-center'>
+                    <div className='w-full sm:text-4xl px-10 sm:px-20 text-left font-bold text-custom-linkActive underline underline-offset-8'>
+                        For You
+                    </div>
+                    {postdata && postdata.map((post) => {
+                        return <PostsCard post={post} key={post._id} />
+                    })}
+                </div>
+                <div className='bg-custom-footerBg sticky w-[17%] h-[90vh]  box-border m-2'>
+
+                </div>
             </div>
         </>
     );
+}
+function TrendingCard({ genre }) {
+    return (
+        <>
+            <div className='sm:w-full p-2 text-left ps-4 underline sm:underline-none underline-offset-8  text-sm mx-1 sm:text-xl text-bold flex flex-row justify-between'>
+                <div>{genre._id}</div>
+                <div> 📈</div>
+            </div>
+
+        </>
+    )
 }
 
 

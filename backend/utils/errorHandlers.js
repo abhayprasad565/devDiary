@@ -1,6 +1,6 @@
 function wrapAsync(fn) {
     return function (req, res, next) {
-        fn(req, res, next).catch(next);
+        fn(req, res, next).catch(next)
     }
 }
 class ExpressError extends Error {
@@ -11,4 +11,4 @@ class ExpressError extends Error {
         this.message = message;
     }
 }
-module.exports = { wrapAsync, ExpressError }
+module.exports = { wrapAsync, ExpressError };
