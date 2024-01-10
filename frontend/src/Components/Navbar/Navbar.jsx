@@ -44,16 +44,55 @@ const Navbar = () => {
                 console.log(msg);
             });
     }
+    // navigae search
+    // rerender page to search categories
+    const [searchInput, setSearchinput] = useState(false);
+    const searchQuery = () => {
+        if (searchInput)
+            navigate(`/posts?category=${searchInput}`, { replace: true });
+    }
     return (
 
         <>
             <header className="bg-white w-screen z-20">
                 <div className="mx-auto max-w-screen px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
+
                         <div className="flex-1 md:flex md:items-center md:gap-12">
                             <Link className="block h-full" to="/posts">
                                 <img src={logo} alt="logo" className='md:justify-start h-[3rem] md:h-[5rem]' />
                             </Link>
+                        </div>
+                        {/* searchbar */}
+                        <div className="relative mx-2 px-10">
+                            <label htmlFor="Search" className="sr-only"> Search </label>
+                            <input
+                                onChange={(e) => setSearchinput(e.target.value)}
+                                type="text"
+                                id="Search"
+                                placeholder="Search for..."
+                                className="w-full rounded-md p-2 border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
+                            />
+
+                            <span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
+                                <button type="button" onClick={searchQuery} className="text-gray-600 hover:bg-custom-linkHover p-2 rounded-lg">
+                                    <span className="sr-only">Search</span>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="h-4 w-4"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                                        />
+                                    </svg>
+                                </button>
+                            </span>
                         </div>
 
                         <div className="md:flex md:items-center md:gap-12">
@@ -132,7 +171,7 @@ const Navbar = () => {
                                                     <span> Saved Posts </span>
                                                 </Link>
                                                 <NavLink to="/categories" className="px-3 sm:hidden py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400" >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" strokeLinejoin="round">
                                                         <circle cx="12" cy="12" r="10" />
                                                         <line x1="12" y1="8" x2="12" y2="16" />
                                                         <line x1="8" y1="12" x2="16" y2="12" />
@@ -140,7 +179,7 @@ const Navbar = () => {
                                                     <span> Categories</span>
                                                 </NavLink>
                                                 <NavLink to="/trending" className="px-3 sm:hidden py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-400">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" strokeLinejoin="round">
                                                         <polyline points="1 12 5 8 9 12 13 8 17 12 21 8" />
                                                         <line x1="5" y1="4" x2="5" y2="12" />
                                                         <line x1="19" y1="4" x2="19" y2="12" />
