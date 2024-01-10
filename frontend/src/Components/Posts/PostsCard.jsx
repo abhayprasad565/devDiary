@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostsCard = ({ post }) => {
-    let { createdAt, title, description, images, _id, author, genre, subGenre } = post;
+    let { createdAt = "", title = 0, description = "", images = [""], _id = 0, author = 0, genre = 0, subGenre = 0 } = post;
     return (
-        <div className="box-border sm:w-[40%] w-full mx-3 my-3  overflow-hidden rounded-lg bg-white shadow">
+        <div className="box-border animate-fade-up animate-once  sm:w-[40%] w-full mx-3 my-3  overflow-hidden rounded-lg bg-white shadow">
             <img
-                src={images[0].trim() || "https://images.unsplash.com/photo-1704381375059-b6861e025dd8?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-                className="aspect-video w-full object-cover"
+                src={images[0].trim() || ""}
+                className="aspect-video w-full object-cover "
                 alt=""
             />
             <div className="p-4">
