@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import getUserInfo from '../../Contexts/UserInfo';
 import useError from '../../Hooks/ErrorMessages'
 import { useNavigate } from 'react-router-dom';
+import { STATIC } from '../../Hooks/Config';
 
 const EditProfile = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const EditProfile = () => {
                 'Content-Type': 'application/json',
             },
         }
-        fetch('http://localhost:8080/check_login', params)
+        fetch(STATIC + '/check_login', params)
             .then(response => {
                 return response.json();
             })

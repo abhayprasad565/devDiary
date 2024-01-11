@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../../Contexts/UserInfo';
 import useError from '../../../Hooks/ErrorMessages';
+import { STATIC } from '../../../Hooks/Config';
 
 const Signup = () => {
     // set password vissible 
@@ -34,7 +35,7 @@ const Signup = () => {
             },
             body: JSON.stringify(formData)
         }
-        fetch('http://localhost:8080/login', params)
+        fetch(STATIC + '/login', params)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {

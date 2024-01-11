@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useError from '../../../Hooks/ErrorMessages';
 
 import logo from "../../../assets/logo.png"
+import { STATIC } from '../../../Hooks/Config';
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Signup = () => {
             },
             body: formData
         }
-        fetch('http://localhost:8080/register', params)
+        fetch(STATIC + '/register', params)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {

@@ -3,6 +3,7 @@ import getUserInfo from '../../Contexts/UserInfo';
 import { useParams } from 'react-router-dom';
 import useError from '../../Hooks/ErrorMessages';
 import { Link } from 'react-router-dom'
+import { STATIC } from '../../Hooks/Config'
 
 const Profile = () => {
     // pre required hooks and values
@@ -26,7 +27,7 @@ const Profile = () => {
                 'Content-Type': 'application/json',
             },
         }
-        fetch(`http://localhost:8080/users/${username}`, params)
+        fetch(STATIC + `/users/${username}`, params)
             .then(response => {
                 return response.json();
             })
@@ -43,6 +44,7 @@ const Profile = () => {
             });
 
     }, [userInfo, username]);
+
     return (
         <div className='h-fit md:h-[80vh] box-border p-2 flex flex-col md:flex-row items-start  w-screen bg-custom-background text-custom-textColor'>
             <div className="relative sm:w-1/3 sm:min-h-[80vh] mt-16 min-w-0 break-words  mb-6 shadow-lg rounded-xl">
@@ -109,6 +111,41 @@ function PostsCard({ post, owner }) {
     let { createdAt, title, description, images, _id } = post;
 
     const date = new Date(createdAt);
+    const { userInfo, setUser } = getUserInfo();
+    // error popup 
+    const [errorPopup, setError] = useError();
+    const handleDelete = () => {
+        // fetch params 
+        const params = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                _id: userInfo.info._id,
+            })
+        }
+        // send data
+        fetch(`http://localhost:8080/posts/${_id}`, params)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    throw data;
+                }
+                setError(false, data.message);
+                setTimeout(() => {
+                    navigate(`/users/${userInfo.info.username}`, { replace: true });
+                }, 1500)
+            })
+            .catch(error => {
+                //console.log(error);
+                setError(true, error.message);
+            });
+
+    }
     return (
         <article className="flex bg-custom-background border transition hover:shadow-xl my-3 m-2">
             <div className="rotate-180 p-2 [writing-mode:_vertical-lr]">
@@ -138,14 +175,14 @@ function PostsCard({ post, owner }) {
                         >
                             Edit
                         </button>
-                        <button
+                        <button onClick={handleDelete}
                             className="inline-block px-4 border py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
                         >
                             Delete
                         </button>
                     </span>}
                 <div className="border-s border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
-                    <Link to={`/posts/${_id}`} >
+                    <Link to={`/posts/view/${_id}`} >
                         <h3 className="font-bold uppercase text-gray-900">
                             {title}
                         </h3>
@@ -158,13 +195,14 @@ function PostsCard({ post, owner }) {
 
                 <div className="sm:flex sm:items-end sm:justify-end">
                     <Link
-                        to={`/posts/${_id}`}
+                        to={`/posts/view/${_id}`}
                         className="block bg-custom-btnBg px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400"
                     >
                         Read Blog
                     </Link>
                 </div>
             </div>
+            {errorPopup}
         </article>
     )
 }

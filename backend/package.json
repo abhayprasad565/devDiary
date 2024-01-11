@@ -23,6 +23,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
   }
 }
