@@ -49,7 +49,7 @@ const Navbar = () => {
     const [searchInput, setSearchinput] = useState(false);
     const searchQuery = () => {
         if (searchInput)
-            navigate(`/posts?category=${searchInput}`, { replace: true });
+            navigate(`/posts?search=${searchInput}`, { replace: true });
     }
     return (
 
@@ -98,10 +98,10 @@ const Navbar = () => {
                         <div className="md:flex md:items-center md:gap-12">
                             <nav aria-label="Global" className="hidden md:block">
                                 <ul className="flex items-center gap-6 text-sm">
-                                    <NavLink to="/categories" className={({ isActive }) => `${isActive ? "text-custom-linkActive decoration-custom-linkActive" : "text-custom-textColor decoration-transparent"} transition-colors ease-linear decoration-solid underline underline-offset-8 decoration-2 `}>
+                                    <NavLink to="/posts?category= " className={({ isActive }) => `${isActive ? "text-custom-linkActive decoration-custom-linkActive" : "text-custom-textColor decoration-transparent"} transition-colors ease-linear decoration-solid underline underline-offset-8 decoration-2 `}>
                                         Categories
                                     </NavLink>
-                                    <NavLink to="/trending" className={({ isActive }) => `${isActive ? "text-custom-linkActive decoration-custom-linkActive" : "text-custom-textColor decoration-transparent"} transition-colors ease-linear decoration-solid underline underline-offset-8 decoration-2 `}>
+                                    <NavLink to="/posts?search= " className={({ isActive }) => `${isActive ? "text-custom-linkActive decoration-custom-linkActive" : "text-custom-textColor decoration-transparent"} transition-colors ease-linear decoration-solid underline underline-offset-8 decoration-2 `}>
                                         Trending
                                     </NavLink>
                                     <NavLink to="/posts/new" className={({ isActive }) => `${isActive ? "text-custom-linkActive decoration-custom-linkActive" : "text-custom-textColor decoration-transparent"} flex flex-row gap-2  transition-colors ease-linear decoration-solid underline underline-offset-8 decoration-2 `}>

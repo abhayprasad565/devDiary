@@ -13,10 +13,11 @@ const Posts = ({ query }) => {
     const [trendingData, setTrendingData] = useState();
     // search posts
     const [searchParams, setSearchParams] = useSearchParams();
+    console.log(searchParams.size)
     useEffect(() => {
         let querykey = "";
         const queryParams = searchParams.get(querykey = 'category') || searchParams.get(querykey = 'search');
-        //console.log(searchParams);
+        console.log(queryParams, querykey);
         const params = {
             method: 'GET',
             headers: {
@@ -55,7 +56,7 @@ const Posts = ({ query }) => {
                 </div>
                 <div className='h-[90vh] box-border w-full sm:w-[66%] custom-scrollbar max-h-[90vh] overflow-y-auto flex flex-row flex-wrap  gap-1 justify-center'>
                     <div className='w-full sm:text-4xl px-10 sm:px-20 text-left font-bold text-custom-linkActive underline underline-offset-8'>
-                        {searchParams.size > 0 ? "Results for " + searchParams.get('category') || searchParams.get(search) : "For You"}
+                        {searchParams.size > 0 ? "Results for " + (searchParams.get('category') || searchParams.get("search")) : "For You"}
                     </div>
                     {postdata && postdata.map((post) => {
                         return <PostsCard post={post} key={post._id} />
@@ -77,8 +78,7 @@ const TrendingCard = memo(({ genre }) => {
     }
     return (
         <>
-            <div className='sm:w-full p-2 text-left  underline sm:underline-none underline-offset-8  text-sm mx-1 sm:text-xl text-bold flex flex-row justify-between
-            hover:animate-bounce hover:animate-once hover:animate-duration-[3000ms]' onClick={handleClick}>
+            <div className='sm:w-full cursor-pointer p-2 text-left  underline sm:underline-none underline-offset-8  text-sm mx-1 sm:text-xl text-bold flex flex-row justify-between' onClick={handleClick}>
                 {genre._id}
                 <div> 📈</div>
             </div>

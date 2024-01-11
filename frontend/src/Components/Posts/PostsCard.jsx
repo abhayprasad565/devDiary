@@ -12,7 +12,7 @@ const PostsCard = ({ post }) => {
             />
             <div className="p-4">
                 <Link to={`/users/${author.username}`} className="hover:underline mb-1 text-sm text-primary-500">{author.firstName}  {author.lastName} • <time>{createdAt.substring(0, 10).split("-").reverse().join("-")}</time></Link>
-                <Link to={`/posts/${_id}`}>
+                <Link to={`/posts/view/${_id}`}>
                     <h3 className="text-xl font-medium text-gray-900">{title}</h3>
                     <p className="mt-1 text-gray-500">{description.substring(0, 200)}</p>
                     <div className="mt-4 flex gap-2">
