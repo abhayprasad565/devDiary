@@ -3,6 +3,7 @@ import getUserInfo from '../../Contexts/UserInfo';
 import { useParams } from 'react-router-dom';
 import useError from '../../Hooks/ErrorMessages';
 import { Link } from 'react-router-dom'
+import { STATIC } from '../../Hooks/Config'
 
 const Profile = () => {
     // pre required hooks and values
@@ -26,7 +27,7 @@ const Profile = () => {
                 'Content-Type': 'application/json',
             },
         }
-        fetch(`http://localhost:8080/users/${username}`, params)
+        fetch(STATIC + `/users/${username}`, params)
             .then(response => {
                 return response.json();
             })

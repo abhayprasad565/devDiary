@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate, useParams, } from 'react-router-dom'
 import useError from '../../Hooks/ErrorMessages';
+import { STATIC } from '../../Hooks/Config';
 
 const ViewPost = () => {
     const { id } = useParams();
@@ -22,7 +23,7 @@ const ViewPost = () => {
                 'Content-Type': 'application/json',
             },
         }
-        let url = `http://localhost:8080/posts/${id}`;
+        let url = STATIC + `/posts/${id}`;
         fetch(url, params)
             .then(response => {
                 return response.json();

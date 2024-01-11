@@ -3,6 +3,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png"
 import getUserInfo from '../../Contexts/UserInfo';
 import useError from '../../Hooks/ErrorMessages';
+import { STATIC } from '../../Hooks/Config';
 
 const Navbar = () => {
     // toggle menu vissibility
@@ -23,7 +24,7 @@ const Navbar = () => {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             },
         }
-        fetch('http://localhost:8080/logout', params)
+        fetch(STATIC + '/logout', params)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState, memo } from 'react';
 import PostsCard from './PostsCard';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useError from '../../Hooks/ErrorMessages'
+import { STATIC } from '../../Hooks/Config';
 
 const Posts = ({ query }) => {
     // navigate hook
@@ -25,7 +26,7 @@ const Posts = ({ query }) => {
                 'Content-Type': 'application/json',
             },
         }
-        let url = `http://localhost:8080/posts/${queryParams ? `search?${querykey}=${queryParams}` : ""}`;
+        let url = STATIC + `/posts/${queryParams ? `search?${querykey}=${queryParams}` : ""}`;
         fetch(url, params)
             .then(response => {
                 return response.json();

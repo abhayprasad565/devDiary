@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import getUserInfo from '../../Contexts/UserInfo';
 import useError from '../../Hooks/ErrorMessages';
 import { useNavigate } from "react-router-dom";
+import { STATIC } from '../../Hooks/Config';
 const NewPost = () => {
     const navigate = useNavigate();
     // get user data from context 
@@ -46,7 +47,7 @@ const NewPost = () => {
             })
         }
         // send data
-        fetch(`http://localhost:8080/posts`, params)
+        fetch(STATIC + `/posts`, params)
             .then(response => {
                 return response.json();
             })
