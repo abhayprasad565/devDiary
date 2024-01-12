@@ -73,7 +73,7 @@ app.use("/posts", passport.authenticate('jwt', { session: false }), postRoute);
 
 // 404 route
 app.use((req, res) => {
-    res.status(404).send(JSON.stringify({ error: "404 Page not found", redirect: "/" }))
+    res.status(404).send(JSON.stringify({ error: "404 Page not found", redirect: req.path }))
 })
 
 // last error handler
