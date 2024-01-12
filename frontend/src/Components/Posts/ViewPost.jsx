@@ -15,7 +15,6 @@ const ViewPost = () => {
     const [postDes, setPostDes] = useState();
 
     useEffect(() => {
-        let querykey = "";
         const params = {
             method: 'GET',
             headers: {

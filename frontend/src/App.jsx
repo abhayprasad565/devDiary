@@ -7,6 +7,7 @@ import { UserInfoProvider } from './Contexts/UserInfo';
 import useError from './Hooks/ErrorMessages';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Components/Footer/Footer';
+import { STATIC } from './Hooks/Config';
 
 function App() {
   // navigate hook
@@ -34,7 +35,7 @@ function App() {
         'Content-Type': 'application/json',
       },
     }
-    fetch('http://localhost:8080/check_login', params)
+    fetch(STATIC + '/check_login', params)
       .then(response => {
         return response.json();
       })

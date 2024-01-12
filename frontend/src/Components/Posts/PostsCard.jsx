@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostsCard = ({ post }) => {
+    console.log(post);
     let { createdAt = "", title = 0, description = "", images = [""], _id = 0, author = 0, genre = 0, subGenre = 0 } = post;
     return (
         <div className="box-border animate-fade-up animate-once  sm:w-[40%] w-full mx-3 my-3  overflow-hidden rounded-lg bg-white shadow">
@@ -11,7 +12,7 @@ const PostsCard = ({ post }) => {
                 alt=""
             />
             <div className="p-4">
-                <Link to={`/users/${author.username}`} className="hover:underline mb-1 text-sm text-primary-500">{author.firstName}  {author.lastName} • <time>{createdAt.substring(0, 10).split("-").reverse().join("-")}</time></Link>
+                <Link to={`/users/${author && author.username}`} className="hover:underline mb-1 text-sm text-primary-500">{author && author.firstName}  {author && author.lastName} • <time>{createdAt.substring(0, 10).split("-").reverse().join("-")}</time></Link>
                 <Link to={`/posts/view/${_id}`}>
                     <h3 className="text-xl font-medium text-gray-900">{title}</h3>
                     <p className="mt-1 text-gray-500">{description.substring(0, 200)}</p>

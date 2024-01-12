@@ -1,22 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import getUserInfo from '../../Contexts/UserInfo';
 import useError from '../../Hooks/ErrorMessages';
 import { useNavigate } from "react-router-dom";
 import { STATIC } from '../../Hooks/Config';
-const NewPost = () => {
+const EditPost = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     // get user data from context 
     const { userInfo, setUser } = getUserInfo();
-    console.log(userInfo);
     // error popup 
     const [errorPopup, setError] = useError();
     // post data states
-    const [genre, setGenre] = useState(null);
-    const [subGenre, setSubGenre] = useState(null);
-    const [title, setTitle] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [images, setImages] = useState([null, null]);
+    const [genre, setGenre] = useState("");
+    const [subGenre, setSubGenre] = useState("");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [images, setImages] = useState(["", ""]);
+
+    useEffect(() => {
+        const params = {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                'Content-Type': 'application/json',
+            },
+        }
+        let url = STATIC + `/posts/${id}`;
+        fetch(url, params)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    throw data;
+                }
+                setGenre(data.post.genre);
+                setTitle(data.post.title);
+                setSubGenre(data.post.subGenre);
+                setDescription(data.post.description);
+                setTitle(data.post.title);
+                setImages(data.post.images)
+            })
+            .catch(error => {
+                console.log(error);
+                setError(true, error.message);
+                setTimeout(() => {
+                    navigate('/login', { replace: true });
+                }, 2000);
+            });
+    }, []);
 
     const submitFormData = (e) => {
         e.preventDefault();
@@ -30,7 +63,7 @@ const NewPost = () => {
         }
         // fetch params 
         const params = {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 'Content-Type': 'application/json',
@@ -48,7 +81,7 @@ const NewPost = () => {
             })
         }
         // send data
-        fetch(STATIC + `/posts`, params)
+        fetch(STATIC + `/posts/${id}`, params)
             .then(response => {
                 return response.json();
             })
@@ -67,8 +100,6 @@ const NewPost = () => {
             });
     }
 
-
-    const postdata = null;
     return (
         <>
             <section className="bg-custom-background min-h-[80vh] w-screen flex items-center justify-center">
@@ -84,6 +115,7 @@ const NewPost = () => {
                                     name='firstName'
                                     placeholder="Title"
                                     type="text"
+                                    value={title}
 
                                 />
                             </div>
@@ -94,6 +126,7 @@ const NewPost = () => {
                                     name='lastName'
                                     placeholder="Genre"
                                     type="text"
+                                    value={genre}
 
                                 />
                             </div>
@@ -106,6 +139,7 @@ const NewPost = () => {
                                     name='firstName'
                                     placeholder="Sub Genres"
                                     type="text"
+                                    value={subGenre}
 
                                 />
                             </div>
@@ -116,6 +150,7 @@ const NewPost = () => {
                                     name='lastName'
                                     placeholder="Add image url from unsplash etc"
                                     type="text"
+                                    value={images[0]}
 
                                 />
                             </div>
@@ -129,6 +164,7 @@ const NewPost = () => {
                                 rows="8"
                                 name="about"
                                 onChange={(e) => setDescription(e.target.value)}
+                                value={description}
                             ></textarea>
                         </div>
 
@@ -148,4 +184,4 @@ const NewPost = () => {
     );
 }
 
-export default NewPost;
+export default EditPost;
