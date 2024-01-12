@@ -114,5 +114,5 @@ Happy coding!
 
 ## Connect with Me 🌐
 
-- Instagram: [Your Instagram Username](https://www.instagram.com/abhayprasad565/)
-- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/abhayprasad565/)
+- Instagram: [abhayprasad565](https://www.instagram.com/abhayprasad565/)
+- LinkedIn: [abhayprasad565](https://www.linkedin.com/in/abhayprasad565/)
