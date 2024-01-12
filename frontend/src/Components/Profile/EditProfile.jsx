@@ -2,10 +2,11 @@ import React from 'react';
 import { useState, useEffect } from 'react'
 import getUserInfo from '../../Contexts/UserInfo';
 import useError from '../../Hooks/ErrorMessages'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { STATIC } from '../../Hooks/Config';
 
 const EditProfile = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
     const { userInfo, setUser } = getUserInfo();
     // userdetails hook
@@ -65,7 +66,7 @@ const EditProfile = () => {
             },
             body: formData
         }
-        fetch(`http://localhost:8080/users/${userInfo.info.username}`, params)
+        fetch(`http://localhost:8080/users/${id}`, params)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -84,10 +85,6 @@ const EditProfile = () => {
                 setError(true, msg);
                 console.log(msg);
             });
-    }
-    const handleInputChange = (e) => {
-        console.log(e.target.name);
-        setUserDetails((prev) => { return { ...prev } });
     }
 
     return (

@@ -5,6 +5,7 @@ const { wrapAsync, ExpressError } = require("../utils/errorHandlers");
 const Posts = require("../Schema/Posts");
 const { validatePost, userSchema } = require("../Schema/validateSchemas");
 const { authorizeUser } = require('./authRoute');
+const { Users } = require("../Schema/User");
 
 // func
 const findTrendingPosts = async () => {
@@ -69,7 +70,7 @@ router.get("/:id", wrapAsync(async (req, res, next) => {
     try {
         const { id } = req.params;
         const post = await Posts.findOne({ _id: id }).populate('author', 'firstName lastName username createdAt about',);
-        res.status(200).json({ sucess: true, post: post });
+        res.status(200).json({ sucess: true, post: post, message: "Fetch Sucessfull" });
     }
     catch (error) {
         next(new ExpressError(500, error.message))
@@ -79,24 +80,41 @@ router.get("/:id", wrapAsync(async (req, res, next) => {
 // new post route
 router.post("/", authorizeUser, wrapAsync(async (req, res, next) => {
     try {
-        console.log(req.body)
+        //console.log(req.body)
         const postData = new Posts(userSchema.validate(req.body.post).value);
-        if (postData)
+        if (postData) {
+            // if post is correct then validate user and save
+            //console.log(postData);
+            const user = await Users.findById(postData.author);
+            //console.log(user);
+            user.posts = [...user.posts, postData._id];
             await postData.save();
+            await user.save();
+            res.status(200).json({ sucess: true, post: postData, message: "Post Saaved Sucessfully" });
+        }
         else throw new ExpressError(400, "Properly send data");
-        console.log(postData);
-        res.status(200).json({ sucess: true, post: postData, message: "Post Saaved Sucessfully" });
+
     } catch (error) {
         next(new ExpressError(400, error.message))
     }
 }));
 // update post route
-router.put("/:id", validatePost, wrapAsync(async (req, res) => {
+router.put("/:id", authorizeUser, wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    let post = await Posts.findOne({ _id: id });
-    post.overwrite({ ...req.body });
-    await post.save();
-    res.status(200).redirect(`/posts/${id}`);
+    try {
+        //console.log(req.body)
+        const postData = userSchema.validate(req.body.post).value;
+        if (postData) {
+            postData.updatedAt = Date.now()
+            const updatedPost = await Posts.findByIdAndUpdate(id, { ...postData });
+            console.log(updatedPost)
+            res.status(200).json({ sucess: true, post: postData, message: "Post Saaved Sucessfully" });
+        }
+        else throw new ExpressError(400, "Properly send data");
+
+    } catch (error) {
+        next(new ExpressError(400, error.message))
+    }
 }));
 // delete post route
 router.delete("/:id", authorizeUser, wrapAsync(async (req, res) => {

@@ -11,6 +11,7 @@ import EditProfile from './Components/Profile/EditProfile.jsx'
 import Posts from './Components/Posts/Posts.jsx'
 import ViewPost from './Components/Posts/ViewPost.jsx'
 import NewPost from './Components/Posts/NewPost.jsx'
+import EditPost from './Components/Posts/EditPost.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,11 +19,12 @@ const router = createBrowserRouter(
       <Route path='/' element={<Posts />}></Route>
       <Route path='signup' element={<Signup />}></Route>
       <Route path='login' element={<Login />}></Route>
-      <Route path='users/edit' element={<EditProfile />}></Route>
+      <Route path='users/edit/:username' element={<EditProfile />}></Route>
       <Route path='users/:username' element={<Profile />}></Route>
       <Route path='/posts' element={<Posts />}></Route>
       <Route path='/posts/view/:id' element={<ViewPost />}></Route>
       <Route path='/posts/new' element={<NewPost />}></Route>
+      <Route path='/posts/edit/:id' element={<EditPost />}></Route>
 
 
 
@@ -33,7 +35,6 @@ const router = createBrowserRouter(
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+
+  <RouterProvider router={router} />
 )

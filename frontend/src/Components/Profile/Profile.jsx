@@ -50,7 +50,7 @@ const Profile = () => {
             <div className="relative sm:w-1/3 sm:min-h-[80vh] mt-16 min-w-0 break-words  mb-6 shadow-lg rounded-xl">
                 {isProfileOwner &&
                     <span class="inline-flex w-fit ms-[80%] justify-end items-end -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
-                        <Link to="/users/edit"
+                        <Link to={`/users/edit/${username}`}
                             class="inline-block border px-4 py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
                         >
                             Edit
@@ -170,11 +170,11 @@ function PostsCard({ post, owner }) {
             <div className="flex flex-1 flex-col items-end justify-between text-xs sm:text-md">
                 {owner &&
                     <span className="z-10 sm:mb-[-30px] h-[30px] md:h-fit w-fit items-end overflow-hidden rounded-md border bg-custom-background shadow-sm">
-                        <button
+                        <Link to={`/posts/edit/${_id}`}
                             className="inline-block border px-4 py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
                         >
                             Edit
-                        </button>
+                        </Link>
                         <button onClick={handleDelete}
                             className="inline-block px-4 border py-1 sm:py-2 text-sm font-medium text-custom-textColor hover:bg-custom-linkHover focus:relative"
                         >
