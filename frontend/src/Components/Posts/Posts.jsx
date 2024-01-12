@@ -51,8 +51,8 @@ const Posts = ({ query }) => {
     return (
         <>
             <div className='w-screen box-border my-3 flex  items-center flex-col sm:flex-row sm:justify-start justify-center'>
-                <div className='sm:border-r-4  w-full flex-row sm:flex-col flex sticky sm:w-[17%] sm:h-[90vh] box-border m-2'>
-                    <div className='sm:w-full text-sm sm:text-2xl font-bold text-custom-linkActive my-3'>Trending Topics</div>
+                <div className='sm:border-r-4 overflow-x-auto custom-scrollbar w-full flex-row sm:flex-col flex sticky sm:w-[17%] sm:h-[90vh] box-border m-2'>
+                    <div className='sm:w-full  text-sm sm:text-2xl font-bold text-custom-linkActive my-3'>Trending Topics</div>
                     {trendingData && trendingData.map((genre, index) => <TrendingCard genre={genre} key={index} />)}
                 </div>
                 <div className='h-[90vh] box-border w-full sm:w-[66%] custom-scrollbar max-h-[90vh] overflow-y-auto flex flex-row flex-wrap  gap-1 justify-center'>
