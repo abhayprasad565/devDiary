@@ -20,13 +20,13 @@ exports.login = async function (req, res) {
     }
 };
 
-exports.register = function (req, res) {
+exports.register = function (req, res,next) {
     Users.register(
         new Users({
             ...req.body
         }), req.body.password, function (err, msg) {
             if (err) {
-                throw new ExpressError(500, "Internal Server Error")
+               next(new ExpressError(500, "Internal Server Error"))
             } else {
                 res.status(201).json({ sucess: true, message: "Registration Sucessfull" });
             }
